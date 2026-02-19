@@ -200,7 +200,7 @@ choco install -y neovim git ripgrep wget fd unzip gzip mingw make
 ```
 wsl --install
 wsl
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo add-apt-repository ppa:neovim-ppa/stable -y
 sudo apt update
 sudo apt install make gcc ripgrep unzip git xclip neovim
 ```
@@ -210,7 +210,7 @@ sudo apt install make gcc ripgrep unzip git xclip neovim
 <details><summary>Ubuntu Install Steps</summary>
 
 ```
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo add-apt-repository ppa:neovim-ppa/stable -y
 sudo apt update
 sudo apt install make gcc ripgrep unzip git xclip neovim
 ```
