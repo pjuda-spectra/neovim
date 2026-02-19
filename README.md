@@ -81,7 +81,7 @@ too - it's ignored in the kickstart repo to make maintenance easier, but it's
 <details><summary> Linux and Mac </summary>
 
 ```sh
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+git clone https://github.com/pjuda-spectra/neovim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 ```
 
 </details>
@@ -200,7 +200,7 @@ choco install -y neovim git ripgrep wget fd unzip gzip mingw make
 ```
 wsl --install
 wsl
-sudo add-apt-repository ppa:neovim-ppa/stable -y
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
 sudo apt install make gcc ripgrep unzip git xclip neovim
 ```
@@ -210,7 +210,7 @@ sudo apt install make gcc ripgrep unzip git xclip neovim
 <details><summary>Ubuntu Install Steps</summary>
 
 ```
-sudo add-apt-repository ppa:neovim-ppa/stable -y
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
 sudo apt install make gcc ripgrep unzip git xclip neovim
 ```
