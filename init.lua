@@ -208,6 +208,16 @@ require('lazy').setup {
   --
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
+  {
+    'CopilotC-Nvim/CopilotChat.nvim',
+    dependencies = {
+      { 'nvim-lua/plenary.nvim', branch = 'master' },
+    },
+    build = 'make tiktoken',
+    opts = {
+      -- See Configuration section for options
+    },
+  },
 
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
@@ -358,6 +368,9 @@ require('lazy').setup {
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
           winblend = 10,
           previewer = true,
+          layout_config = {
+            width = 0.6, -- Increase this value for a wider dropdown
+          },
         })
       end, { desc = '[/] Fuzzily search in current buffer' })
 
