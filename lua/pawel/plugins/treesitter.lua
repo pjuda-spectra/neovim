@@ -8,4 +8,5 @@ return {
       callback = function() vim.treesitter.start() end,
     })
   end,
+  opts = { ensure_installed = { 'cpp', 'cmake' } },
 }

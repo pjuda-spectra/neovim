@@ -16,6 +16,9 @@ vim.o.expandtab = true
 vim.o.number = true
 -- vim.o.relativenumber = true
 
+-- ignore modelines
+vim.o.modeline = false
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
 
@@ -70,7 +73,7 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
--- [[ ############ Basic Keymaps ###############]]
+-- ############################################################### BASIC KEYMAPS
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -91,6 +94,9 @@ vim.diagnostic.config {
   jump = { float = true },
 }
 
+-- Edit vimrc
+vim.keymap.set('n', '<leader>vim', '<cmd>e $MYVIMRC<CR>')
+
 -- Open diagnostics page
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -108,7 +114,7 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- [[ ############# Autocommands ################ ]] - See `:help lua-guide-autocommands`
+-- ############################################ AUTOCOMMANDS See `:help lua-guide-autocommands`
 
 -- Highlight when yanking (copying) text `:help vim.hl.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -135,3 +141,20 @@ rtp:prepend(lazypath)
 require('lazy').setup {
   { import = 'pawel.plugins' },
 }
+
+-- Lua function to toggle virtual text and signs for all diagnostics
+function ToggleDiagnostics()
+    local current_config = vim.diagnostic.config()
+    local new_vt_state = not current_config.virtual_text
+    local new_signs_state = not current_config.signs
+
+    vim.diagnostic.config({
+        virtual_text = new_vt_state,
+        signs = new_signs_state,
+    })
+    print("Diagnostics Toggled: VT=" .. tostring(new_vt_state) .. ", Signs=" .. tostring(new_signs_state))
+end
+
+-- Keymap it (e.g., to <leader>d)
+vim.keymap.set("n", "<leader>d", ToggleDiagnostics, { desc = "Toggle Diagnostics" })
+

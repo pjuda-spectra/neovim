@@ -8,8 +8,8 @@ return {
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
         -- Configure linting for C/CPP files
-        c = { 'cpplint' },
-        cpp = { 'cpplint' },
+        -- c = { 'cpplint' },
+        -- cpp = { 'cpplint' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
