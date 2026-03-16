@@ -1,4 +1,3 @@
-
 -- [[ ############## Setting options ################# ]]
 -- NOTE: For more options, you can see `:help option-list`
 -- Set leader to space
@@ -8,9 +7,10 @@ vim.g.maplocalleader = ' '
 vim.o.termguicolors = true
 
 -- Change shiftwidth to 4 spaces
-vim.o.shiftwidth = 4
 vim.o.tabstop = 4
+vim.o.shiftwidth = 4
 vim.o.expandtab = true
+vim.o.softtabstop = 4
 
 -- Line numbers and relative line numbers
 vim.o.number = true
@@ -142,19 +142,29 @@ require('lazy').setup {
   { import = 'pawel.plugins' },
 }
 
--- Lua function to toggle virtual text and signs for all diagnostics
+function ToggleSeverity() print(vim.inspect(vim.diagnostic.config())) end
+
 function ToggleDiagnostics()
-    local current_config = vim.diagnostic.config()
-    local new_vt_state = not current_config.virtual_text
-    local new_signs_state = not current_config.signs
+  local current_config = vim.diagnostic.config()
+  local new_vt_state = not current_config.virtual_text
+  local new_signs_state = not current_config.signs
 
-    vim.diagnostic.config({
-        virtual_text = new_vt_state,
-        signs = new_signs_state,
-    })
-    print("Diagnostics Toggled: VT=" .. tostring(new_vt_state) .. ", Signs=" .. tostring(new_signs_state))
+  vim.diagnostic.config {
+    virtual_text = new_vt_state,
+    signs = new_signs_state,
+  }
+  print('Diagnostics Toggled: VT=' .. tostring(new_vt_state) .. ', Signs=' .. tostring(new_signs_state))
 end
-
+--
 -- Keymap it (e.g., to <leader>d)
-vim.keymap.set("n", "<leader>d", ToggleDiagnostics, { desc = "Toggle Diagnostics" })
+vim.keymap.set('n', '<leader>da', ToggleDiagnostics, { desc = 'Toggle All Diagnostics' })
 
+-- Keymap for hiding warnings only
+vim.keymap.set('n', '<leader>ds', ToggleSeverity, { desc = 'Toggle Diagnostic Severity' })
+
+-- Toggle header keymap
+vim.keymap.set('n', 'gh', '<Cmd>LspClangdSwitchSourceHeader<CR>', {
+  desc = 'Switch header source',
+  noremap = true,
+  silent = true,
+})

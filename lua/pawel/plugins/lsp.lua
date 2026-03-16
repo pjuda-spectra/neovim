@@ -135,8 +135,6 @@ return {
         Lua = {},
       },
     })
-    vim.lsp.enable 'lua_ls'
-    vim.lsp.enable 'cmake-language-server'
-    vim.lsp.enable 'clangd'
+    vim.lsp.enable { 'lua_ls', 'cmake-language-server', 'clangd' }
   end,
 }
