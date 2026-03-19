@@ -142,8 +142,7 @@ require('lazy').setup {
   { import = 'pawel.plugins' },
 }
 
-function ToggleSeverity() print(vim.inspect(vim.diagnostic.config())) end
-
+-- Toggle showing diagnostics
 function ToggleDiagnostics()
   local current_config = vim.diagnostic.config()
   local new_vt_state = not current_config.virtual_text
@@ -155,12 +154,8 @@ function ToggleDiagnostics()
   }
   print('Diagnostics Toggled: VT=' .. tostring(new_vt_state) .. ', Signs=' .. tostring(new_signs_state))
 end
---
--- Keymap it (e.g., to <leader>d)
-vim.keymap.set('n', '<leader>da', ToggleDiagnostics, { desc = 'Toggle All Diagnostics' })
 
--- Keymap for hiding warnings only
-vim.keymap.set('n', '<leader>ds', ToggleSeverity, { desc = 'Toggle Diagnostic Severity' })
+vim.keymap.set('n', '<leader>da', ToggleDiagnostics, { desc = 'Toggle All Diagnostics' })
 
 -- Toggle header keymap
 vim.keymap.set('n', 'gh', '<Cmd>LspClangdSwitchSourceHeader<CR>', {
