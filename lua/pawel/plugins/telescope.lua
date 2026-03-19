@@ -118,10 +118,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     -- Override default behavior and theme when searching
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-      builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-        winblend = 10,
-        previewer = false,
-      })
+      builtin.current_buffer_fuzzy_find(require('telescope.themes').get_ivy())
     end, { desc = '[/] Fuzzily search in current buffer' })
 
     -- It's also possible to pass additional configuration options.
