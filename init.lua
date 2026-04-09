@@ -114,6 +114,10 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Faster moving around screen
+vim.keymap.set('n', '<M-Up>', '7k', { desc = 'Move 10 lines up' })
+vim.keymap.set('n', '<M-Down>', '7j', { desc = 'Move 10 lines down' })
+
 -- ############################################ AUTOCOMMANDS See `:help lua-guide-autocommands`
 
 -- Highlight when yanking (copying) text `:help vim.hl.on_yank()`

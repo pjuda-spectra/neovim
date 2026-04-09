@@ -9,6 +9,9 @@ return {
       vim.keymap.set('n', '<leader>lg', function()
         lazygit:toggle()
       end, { desc = 'Open lazygit in a floating terminal' })
+      
+      -- Toggle terminal with leader + tt
+      vim.keymap.set('n', '<leader>tt', '<cmd>ToggleTerm<CR>', { desc = 'Toggle terminal' })
     end,
   },
 }
