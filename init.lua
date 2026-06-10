@@ -73,6 +73,9 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Syntax highlighting for doxygen
+vim.g.load_doxygen_syntax = 1
+
 -- ############################################################### BASIC KEYMAPS
 
 -- Clear highlights on search when pressing <Esc> in normal mode

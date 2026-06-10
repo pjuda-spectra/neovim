@@ -8,6 +8,8 @@ return {
     'saghen/blink.cmp', -- Allows extra capabilities provided by blink.cmp
   },
   config = function()
+    require('mason').setup()
+
     --  This function gets run when an LSP attaches to a particular buffer.
     --    That is to say, every time a new file is opened that is associated with
     --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
@@ -78,6 +80,7 @@ return {
     -- Enable the following language servers
     local servers = {
       clangd = {},
+      cmake = {},
       -- gopls = {},
       -- pyright = {},
       -- rust_analyzer = {},
@@ -91,7 +94,10 @@ return {
     --    :Mason
     --
     -- You can press `g?` for help in this menu.
-    local ensure_installed = vim.tbl_keys(servers or {})
+    -- Mason package names can differ from LSP server names (e.g. cmake-language-server vs cmake)
+    local ensure_installed = vim.tbl_filter(function(name)
+      return name ~= 'cmake'
+    end, vim.tbl_keys(servers or {}))
     vim.list_extend(ensure_installed, {
       'lua-language-server', -- Lua Language server
       'stylua', -- Used to format Lua code
@@ -135,6 +141,6 @@ return {
         Lua = {},
       },
     })
-    vim.lsp.enable { 'lua_ls', 'cmake-language-server', 'clangd' }
+    vim.lsp.enable { 'lua_ls', 'cmake', 'clangd' }
   end,
 }
