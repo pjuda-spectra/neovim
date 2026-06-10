@@ -10,6 +10,17 @@ return {
   config = function()
     require('mason').setup()
 
+    -- cmake-language-server breaks with pygls 2.x (ImportError on startup, no completions)
+    local mason_cmake = vim.fs.joinpath(vim.fn.stdpath('data'), 'mason', 'packages', 'cmake-language-server', 'venv')
+    local mason_cmake_ls = mason_cmake .. '/bin/cmake-language-server'
+    local mason_cmake_pip = mason_cmake .. '/bin/pip'
+    if vim.fn.executable(mason_cmake_ls) == 1 and vim.fn.executable(mason_cmake_pip) == 1 then
+      local out = vim.fn.system({ mason_cmake_ls, '--version' })
+      if vim.v.shell_error ~= 0 or out:match('ImportError') then
+        vim.fn.jobstart({ mason_cmake_pip, 'install', 'pygls<2,>=1.3.1' }, { detach = true })
+      end
+    end
+
     --  This function gets run when an LSP attaches to a particular buffer.
     --    That is to say, every time a new file is opened that is associated with
     --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
@@ -102,6 +113,7 @@ return {
       'lua-language-server', -- Lua Language server
       'stylua', -- Used to format Lua code
       'clangd',
+      'clang-format',
       'cmake-language-server',
       'cmakelang',
       'cmakelint',
