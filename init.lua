@@ -121,6 +121,10 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('n', '<M-Up>', '7k', { desc = 'Move 10 lines up' })
 vim.keymap.set('n', '<M-Down>', '7j', { desc = 'Move 10 lines down' })
 
+-- Override paste function by making sure you dump to black whole whaterver you overwrite
+-- X is visual mode so just overwrite in visual
+vim.keymap.set('x', 'p', '"_dP', { desc = 'Paste without overwriting buffer' })
+
 -- ############################################ AUTOCOMMANDS See `:help lua-guide-autocommands`
 
 -- Highlight when yanking (copying) text `:help vim.hl.on_yank()`
