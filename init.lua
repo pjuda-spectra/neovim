@@ -76,6 +76,9 @@ vim.o.confirm = true
 -- Syntax highlighting for doxygen
 vim.g.load_doxygen_syntax = 1
 
+-- Remove swapfiles
+vim.o.swapfile = false
+
 -- ############################################################### BASIC KEYMAPS
 
 -- Clear highlights on search when pressing <Esc> in normal mode
@@ -169,7 +172,7 @@ end
 vim.keymap.set('n', '<leader>da', ToggleDiagnostics, { desc = 'Toggle All Diagnostics' })
 
 -- Toggle header keymap
-vim.keymap.set('n', 'gh', '<Cmd>LspClangdSwitchSourceHeader<CR>', {
+vim.keymap.set('n', '<leader>tf', '<Cmd>LspClangdSwitchSourceHeader<CR>', {
   desc = 'Switch header source',
   noremap = true,
   silent = true,
