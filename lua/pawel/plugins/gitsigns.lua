@@ -62,6 +62,25 @@ return {
       map('n', '<leader>hB', gitsigns.blame, { desc = 'git [B]lame file' })
       map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
       map('n', '<leader>hD', function() gitsigns.diffthis '@' end, { desc = 'git [D]iff against last commit' })
+      map('n', '<leader>hc', function()
+        local closed = false
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          local name = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(win))
+          if vim.startswith(name, 'gitsigns://') then
+            local ok, err = pcall(vim.api.nvim_win_close, win, false)
+            if ok then
+              closed = true
+            else
+              vim.notify(tostring(err), vim.log.levels.WARN)
+            end
+          end
+        end
+        if not closed then
+          vim.notify('No gitsigns diff window open', vim.log.levels.INFO)
+        elseif vim.wo.diff then
+          vim.cmd.diffoff()
+        end
+      end, { desc = 'git [c]lose diff' })
       map('n', '<leader>hq', gitsigns.setqflist, { desc = 'git hunks to [q]uickfix (buffer)' })
       map('n', '<leader>hQ', function() gitsigns.setqflist 'all' end, { desc = 'git hunks to [Q]uickfix (repo)' })
       -- Toggles
