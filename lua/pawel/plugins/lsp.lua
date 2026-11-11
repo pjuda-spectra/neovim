@@ -11,14 +11,12 @@ return {
     require('mason').setup()
 
     -- cmake-language-server breaks with pygls 2.x (ImportError on startup, no completions)
-    local mason_cmake = vim.fs.joinpath(vim.fn.stdpath('data'), 'mason', 'packages', 'cmake-language-server', 'venv')
+    local mason_cmake = vim.fs.joinpath(vim.fn.stdpath 'data', 'mason', 'packages', 'cmake-language-server', 'venv')
     local mason_cmake_ls = mason_cmake .. '/bin/cmake-language-server'
     local mason_cmake_pip = mason_cmake .. '/bin/pip'
     if vim.fn.executable(mason_cmake_ls) == 1 and vim.fn.executable(mason_cmake_pip) == 1 then
-      local out = vim.fn.system({ mason_cmake_ls, '--version' })
-      if vim.v.shell_error ~= 0 or out:match('ImportError') then
-        vim.fn.jobstart({ mason_cmake_pip, 'install', 'pygls<2,>=1.3.1' }, { detach = true })
-      end
+      local out = vim.fn.system { mason_cmake_ls, '--version' }
+      if vim.v.shell_error ~= 0 or out:match 'ImportError' then vim.fn.jobstart({ mason_cmake_pip, 'install', 'pygls<2,>=1.3.1' }, { detach = true }) end
     end
 
     --  This function gets run when an LSP attaches to a particular buffer.
@@ -90,7 +88,12 @@ return {
 
     -- Enable the following language servers
     local servers = {
-      clangd = {},
+      clangd = {
+        cmd = {
+          'clangd',
+          '--query-driver=/opt/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-*',
+        },
+      },
       cmake = {},
       -- gopls = {},
       -- pyright = {},
@@ -106,9 +109,7 @@ return {
     --
     -- You can press `g?` for help in this menu.
     -- Mason package names can differ from LSP server names (e.g. cmake-language-server vs cmake)
-    local ensure_installed = vim.tbl_filter(function(name)
-      return name ~= 'cmake'
-    end, vim.tbl_keys(servers or {}))
+    local ensure_installed = vim.tbl_filter(function(name) return name ~= 'cmake' end, vim.tbl_keys(servers or {}))
     vim.list_extend(ensure_installed, {
       'lua-language-server', -- Lua Language server
       'stylua', -- Used to format Lua code
@@ -117,6 +118,7 @@ return {
       'cmake-language-server',
       'cmakelang',
       'cmakelint',
+      'ruff', -- Used to format Python code
       -- You can add other tools here that you want Mason to install
     })
 
