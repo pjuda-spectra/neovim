@@ -48,10 +48,26 @@ return { -- Autoformat
       -- .h/.hpp headers resolve to the c/cpp filetypes, so they're covered here
       c = { 'clang-format' },
       cpp = { 'clang-format' },
+      -- Run in order: sort imports, then format
+      python = { 'ruff_organize_imports', 'ruff_format' },
     },
     formatters = {
       ['clang-format'] = {
-        prepend_args = { '-style={IndentWidth: 4, TabWidth: 4, UseTab: Never}' },
+        -- LLVM's AccessModifierOffset of -2 lands `public:` on a 2-space indent
+        -- even with IndentWidth 4, so every indent knob is pinned explicitly.
+        prepend_args = {
+          '-style={' .. table.concat({
+            'BasedOnStyle: LLVM',
+            'ColumnLimit: 120',
+            'IndentWidth: 4',
+            'TabWidth: 4',
+            'UseTab: Never',
+            'AccessModifierOffset: -4',
+            'ContinuationIndentWidth: 4',
+            'ConstructorInitializerIndentWidth: 4',
+            'PPIndentWidth: 4',
+          }, ', ') .. '}',
+        },
       },
     },
   },
