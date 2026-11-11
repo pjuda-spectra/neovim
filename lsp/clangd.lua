@@ -21,11 +21,9 @@ local function switch_source_header(bufnr, client)
   local params = vim.lsp.util.make_text_document_params(bufnr)
   ---@diagnostic disable-next-line:param-type-mismatch
   client:request(method_name, params, function(err, result)
-    if err then
-      error(tostring(err))
-    end
+    if err then error(tostring(err)) end
     if not result then
-      vim.notify('corresponding file cannot be determined')
+      vim.notify 'corresponding file cannot be determined'
       return
     end
     vim.cmd.edit(vim.uri_to_fname(result))
@@ -35,9 +33,7 @@ end
 local function symbol_info(bufnr, client)
   local method_name = 'textDocument/symbolInfo'
   ---@diagnostic disable-next-line:param-type-mismatch
-  if not client or not client:supports_method(method_name) then
-    return vim.notify('Clangd client not found', vim.log.levels.ERROR)
-  end
+  if not client or not client:supports_method(method_name) then return vim.notify('Clangd client not found', vim.log.levels.ERROR) end
   local win = vim.api.nvim_get_current_win()
   local params = vim.lsp.util.make_position_params(win, client.offset_encoding)
   ---@diagnostic disable-next-line:param-type-mismatch
@@ -63,7 +59,7 @@ end
 
 ---@type vim.lsp.Config
 return {
-  cmd = { 'clangd' },
+  cmd = { 'clangd', '--query-driver=/opt/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-*' },
   filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
   root_markers = {
     '.clangd',
@@ -88,17 +84,16 @@ return {
   },
   ---@param init_result ClangdInitializeResult
   on_init = function(client, init_result)
-    if init_result.offsetEncoding then
-      client.offset_encoding = init_result.offsetEncoding
-    end
+    if init_result.offsetEncoding then client.offset_encoding = init_result.offsetEncoding end
   end,
   on_attach = function(client, bufnr)
-    vim.api.nvim_buf_create_user_command(bufnr, 'LspClangdSwitchSourceHeader', function()
-      switch_source_header(bufnr, client)
-    end, { desc = 'Switch between source/header' })
+    vim.api.nvim_buf_create_user_command(
+      bufnr,
+      'LspClangdSwitchSourceHeader',
+      function() switch_source_header(bufnr, client) end,
+      { desc = 'Switch between source/header' }
+    )
 
-    vim.api.nvim_buf_create_user_command(bufnr, 'LspClangdShowSymbolInfo', function()
-      symbol_info(bufnr, client)
-    end, { desc = 'Show symbol info' })
+    vim.api.nvim_buf_create_user_command(bufnr, 'LspClangdShowSymbolInfo', function() symbol_info(bufnr, client) end, { desc = 'Show symbol info' })
   end,
 }
